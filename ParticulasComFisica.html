@@ -225,7 +225,7 @@
 
             function decideGravity() {
                 if (document.getElementById("YesGravity").checked) {
-                    gravity = 0.01;
+                    gravity = 0.025;
                 }
                 else if (document.getElementById("NoGravity").checked) {
                     gravity = 0;
@@ -424,6 +424,9 @@
                 var TimeSeconds = now * 0.001;
                 var DeltaTime = TimeSeconds - then;
                 then = TimeSeconds;
+                for (var i = 0; i < particleArray.length; i++) {
+                    particleArray[i].update(DeltaTime);
+                }
                 if (particleArray.length != 0) {
                     requestID = window.requestAnimationFrame(function() {
                     
@@ -434,9 +437,6 @@
                     fps = times.length;
                     mainLoop()
                 });
-                for (var i = 0; i < particleArray.length; i++) {
-                    particleArray[i].update(DeltaTime);
-                }  
                 showFPS();
                 }
             }
