@@ -247,10 +247,10 @@
                 this.color = color;
                 this.mass = (Math.PI * this.radius ** 2)
 
-                this.update = function(abc) {
+                this.update = function(TimeElapsed) {
                     this.particleCollision();
                     this.boxCollision();
-                    this.updatePositon(abc);
+                    this.updatePositon(TimeElapsed);
                     this.drawParticle();
                 }
 
@@ -366,9 +366,9 @@
                     }
                 }
 
-                this.updatePositon = function (cba) {
-                    this.x += this.dx * cba * 100;
-                    this.y += this.dy * cba * 100;
+                this.updatePositon = function (ElapsedTime) {
+                    this.x += this.dx * ElapsedTime * 100;
+                    this.y += this.dy * ElapsedTime * 100;
                 }
 
                 this.drawParticle = function() {
@@ -421,9 +421,9 @@
             function mainLoop() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 const now = performance.now();
-                var timeinseconds = now * 0.001;
-                var deltatimeinseconds = timeinseconds - then;
-                then = timeinseconds;
+                var TimeSeconds = now * 0.001;
+                var DeltaTime = TimeSeconds - then;
+                then = TimeSeconds;
                 if (particleArray.length != 0) {
                     requestID = window.requestAnimationFrame(function() {
                     
@@ -435,7 +435,7 @@
                     mainLoop()
                 });
                 for (var i = 0; i < particleArray.length; i++) {
-                    particleArray[i].update(deltatimeinseconds);
+                    particleArray[i].update(DeltaTime);
                 }  
                 showFPS();
                 }
