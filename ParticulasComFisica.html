@@ -247,10 +247,10 @@
                 this.color = color;
                 this.mass = (Math.PI * this.radius ** 2)
 
-                this.update = function() {
+                this.update = function(abc) {
                     this.particleCollision();
                     this.boxCollision();
-                    this.updatePositon();
+                    this.updatePositon(abc);
                     this.drawParticle();
                 }
 
@@ -366,9 +366,9 @@
                     }
                 }
 
-                this.updatePositon = function () {
-                    this.x += this.dx;
-                    this.y += this.dy;
+                this.updatePositon = function (cba) {
+                    this.x += this.dx * cba * 100;
+                    this.y += this.dy * cba * 100;
                 }
 
                 this.drawParticle = function() {
@@ -416,21 +416,27 @@
 
             // main loop
 
+            var then = 0;
+
             function mainLoop() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (var i = 0; i < particleArray.length; i++) {
-                    particleArray[i].update();
-                }
+                const now = performance.now();
+                var timeinseconds = now * 0.001;
+                var deltatimeinseconds = timeinseconds - then;
+                then = timeinseconds;
                 if (particleArray.length != 0) {
-                        requestID = window.requestAnimationFrame(function() {
-                        const now = performance.now();
-                        while (times.length > 0 && times[0] <= now - 1000) {
-                            times.shift();
-                        }
-                        times.push(now);
-                        fps = times.length;
-                        mainLoop()
-                    });
+                    requestID = window.requestAnimationFrame(function() {
+                    
+                    while (times.length > 0 && times[0] <= now - 1000) {
+                        times.shift();
+                    }
+                    times.push(now);
+                    fps = times.length;
+                    mainLoop()
+                });
+                for (var i = 0; i < particleArray.length; i++) {
+                    particleArray[i].update(deltatimeinseconds);
+                }  
                 showFPS();
                 }
             }
