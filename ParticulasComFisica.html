@@ -428,20 +428,20 @@
                     else {
                         DeltaTime = TimeSeconds - then;
                     }
-                then = TimeSeconds;
-                for (var i = 0; i < particleArray.length; i++) {
-                    particleArray[i].update(DeltaTime);
-                    }
+                    then = TimeSeconds;
+                    for (var i = 0; i < particleArray.length; i++) {
+                        particleArray[i].update(DeltaTime);
+                        }
+                    requestID = window.requestAnimationFrame(function() {
+                        while (times.length > 0 && times[0] <= now - 1000) {
+                            times.shift();
+                        }
+                        times.push(now);
+                        fps = times.length;
+                        mainLoop()
+                        });
+                    showFPS();
                 }
-                requestID = window.requestAnimationFrame(function() {
-                    while (times.length > 0 && times[0] <= now - 1000) {
-                        times.shift();
-                    }
-                    times.push(now);
-                    fps = times.length;
-                    mainLoop()
-                });
-                showFPS();
             }
 
             // buttons
